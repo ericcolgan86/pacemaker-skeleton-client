@@ -52,7 +52,7 @@ public class AsciiTableParser extends Parser {
         List<Activity> activityList = new ArrayList(activities);
         IASCIITableAware asciiTableAware = new CollectionASCIITableAware<Activity>(activityList,
             "id",
-            "type", "location", "distance", "starttime", "duration");
+            "type", "location", "distance");
         System.out.println(ASCIITable.getInstance().getTable(asciiTableAware));
       }
       System.out.println("ok");

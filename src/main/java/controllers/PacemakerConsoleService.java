@@ -33,12 +33,12 @@ public class PacemakerConsoleService {
       @Param(name = "email") String email, @Param(name = "password") String password) {
     console.renderUser(paceApi.createUser(firstName, lastName, email, password));
   }
-
+  
   @Command(description = "List Users: List all users emails, first and last names")
   public void listUsers() {
     console.renderUsers(paceApi.getUsers());
   }
-
+  
   @Command(description = "Login: Log in a registered user in to pacemaker")
   public void login(@Param(name = "email") String email,
       @Param(name = "password") String password) {
@@ -53,14 +53,14 @@ public class PacemakerConsoleService {
       }
     }
   }
-
+  
   @Command(description = "Logout: Logout current user")
   public void logout() {
     console.println("Logging out " + loggedInUser.email);
     console.println("ok");
     loggedInUser = null;
   }
-
+  
   @Command(description = "Add activity: create and add an activity for the logged in user")
   public void addActivity(
       @Param(name = "type") String type,
@@ -71,9 +71,6 @@ public class PacemakerConsoleService {
       console
           .renderActivity(paceApi.createActivity(user.get().id, type, location, distance));
     }
-    else {
-    	console.println("Not logged in");
-    }
   }
 
   @Command(description = "List Activities: List all activities for logged in user")
@@ -83,6 +80,7 @@ public class PacemakerConsoleService {
       console
           .renderActivities(paceApi.getActivities(user.get().id));
     }
+    
   }
 
   // Baseline Commands
@@ -98,6 +96,10 @@ public class PacemakerConsoleService {
       console.println("not found");
     }
   }
+  
+  public Activity getActivity(String id) {
+	    return null;
+	  }
 
   @Command(description = "ActivityReport: List all activities for logged in user, sorted alphabetically by type")
   public void activityReport() {
@@ -126,17 +128,15 @@ public class PacemakerConsoleService {
 	      console.renderActivities(reportActivities);
 	    }
 	  }
-
+  
   @Command(description = "List all locations for a specific activity")
   public void listActivityLocations(@Param(name = "activity-id") String id) {
-
     Optional<Activity> activity = Optional.fromNullable(paceApi.getActivity(loggedInUser.getId(), id));
     if (activity.isPresent()) {
-      console.renderLocations(activity.get().route);
+      // console.renderLocations(activity.get().route);
     }
   }
   
-
   @Command(description = "Follow Friend: Follow a specific friend")
   public void follow(@Param(name = "email") String email) {
   }
