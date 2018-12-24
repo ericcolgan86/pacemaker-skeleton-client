@@ -71,6 +71,9 @@ public class PacemakerConsoleService {
       console
           .renderActivity(paceApi.createActivity(user.get().id, type, location, distance));
     }
+    else {
+    	console.println("Not logged in");
+    }
   }
 
   @Command(description = "List Activities: List all activities for logged in user")
@@ -86,15 +89,14 @@ public class PacemakerConsoleService {
 
   @Command(description = "Add location: Append location to an activity")
   public void addLocation(@Param(name = "activity-id") String id,
-      @Param(name = "longitude") double longitude,
-      @Param(name = "latitude") double latitude) {
-    //Optional<Collection<Activity>> activity = Optional.fromNullable(paceApi.getActivities(id));
-   // if (activity.isPresent()) {
-    //  paceApi.addLocation(activity.get().id, latitude, longitude);
-    //  console.println("ok");
-   // } else {
-   //   console.println("not found");
-   // }
+      @Param(name = "longitude") double longitude, @Param(name = "latitude") double latitude) {
+    Optional<Activity> activity = Optional.fromNullable(paceApi.getActivity(loggedInUser.getId(), id));
+    if (activity.isPresent()) {
+      paceApi.addLocation(loggedInUser.getId(), activity.get().id, latitude, longitude);
+      console.println("ok");
+    } else {
+      console.println("not found");
+    }
   }
 
   @Command(description = "ActivityReport: List all activities for logged in user, sorted alphabetically by type")
@@ -127,10 +129,12 @@ public class PacemakerConsoleService {
 
   @Command(description = "List all locations for a specific activity")
   public void listActivityLocations(@Param(name = "activity-id") String id) {
-    //Optional<Activity> activity = Optional.fromNullable(paceApi.getActivities(id));
-   // if (activity.isPresent()) {
-     // console.renderLocations(activity.get().route);
-   }
+
+    Optional<Activity> activity = Optional.fromNullable(paceApi.getActivity(loggedInUser.getId(), id));
+    if (activity.isPresent()) {
+      console.renderLocations(activity.get().route);
+    }
+  }
   
 
   @Command(description = "Follow Friend: Follow a specific friend")
