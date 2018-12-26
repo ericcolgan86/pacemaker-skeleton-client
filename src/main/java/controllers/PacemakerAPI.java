@@ -47,6 +47,13 @@ interface PacemakerInterface {
   
   @DELETE("/users/{id}/activities")
   Call<String> deleteActivities(@Path("id") String id);
+  
+  @POST("/users/{id}/friends/{friendemail}")
+  Call<User> addFriend(@Path("id") String id, @Path("friendemail") String friendEmail);
+  
+  @GET("/users/{id}/friends/getfriends")
+  Call<List<User>> getFriends(@Path("id") String id);  
+  
 }
 
 
@@ -119,6 +126,30 @@ public class PacemakerAPI {
 	      System.out.println(e.getMessage());
 	    }
 	    return activity;
+	  }
+  
+  public User addFriend(String userId, String friendEmail) {
+	    User user = null;
+	    try {
+	      Call<User> call = pacemakerInterface.addFriend(userId, friendEmail);
+	      Response<User> response = call.execute();
+	      user = response.body();
+	    } catch (Exception e) {
+	      System.out.println(e.getMessage());
+	    }
+	    return user;
+	  }
+  
+  public Collection<User> listFriends(String userId) {
+	    Collection<User> users = null;
+	    try {
+	      Call<List<User>> call = pacemakerInterface.getFriends(userId);
+	      Response<List<User>> response = call.execute();
+	      users = response.body();
+	    } catch (Exception e) {
+	      System.out.println(e.getMessage());
+	    }
+	    return users;
 	  }
 
   public Collection<Activity> getActivities(String id) {

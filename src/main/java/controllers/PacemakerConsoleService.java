@@ -139,10 +139,20 @@ public class PacemakerConsoleService {
   
   @Command(description = "Follow Friend: Follow a specific friend")
   public void follow(@Param(name = "email") String email) {
+	  Optional<User> user = Optional.fromNullable(loggedInUser);
+	    if (user.isPresent()) {
+	    	paceApi.addFriend(user.get().id, email);
+	    	console.println("User Followed");
+	    }	    
   }
 
   @Command(description = "List Friends: List all of the friends of the logged in user")
   public void listFriends() {
+	  Optional<User> user = Optional.fromNullable(loggedInUser);
+	    if (user.isPresent()) {
+	    	console.renderUsers(paceApi.listFriends(user.get().id));
+	    }	    
+	  
   }
 
   @Command(description = "Friend Activity Report: List all activities of specific friend, sorted alphabetically by type)")

@@ -1,7 +1,12 @@
 package controllers;
 
 import static org.junit.Assert.*;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -37,4 +42,20 @@ public class UserTest {
     Collection<User> returnedUsers = pacemaker.getUsers();
     assertEquals(users.size(), returnedUsers.size());
   }
+  
+  @Test
+  public void testFollowAndListUser() {
+    users.forEach(
+        user -> pacemaker.createUser(user.firstname, user.lastname, user.email, user.password));
+    User bartNoMates = pacemaker.getUserByEmail("bart@simpson.com");
+    User lisa = pacemaker.getUserByEmail("lisa@simpson.com");
+    
+    pacemaker.addFriend(bartNoMates.id, lisa.email);
+    
+    Collection<User> friends = pacemaker.listFriends(bartNoMates.id);
+    List<User> friendsList = new ArrayList<User>(friends);
+    
+    assertEquals(friendsList.size(), 1);  
+  }
+  
 }
