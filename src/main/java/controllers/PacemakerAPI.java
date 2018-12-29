@@ -1,9 +1,11 @@
 package controllers;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
 import models.Activity;
 import models.Location;
 import models.User;
@@ -164,9 +166,23 @@ public class PacemakerAPI {
     return activities;
   }
 
-  public List<Activity> listActivities(String userId, String sortBy) {
-    return null;
-  }
+
+  public ArrayList<Activity> listActivities(ArrayList<Activity> activities, String sortBy) 
+	{
+		if(sortBy.equalsIgnoreCase("location")) {
+			activities.sort(
+				      (Activity a1, Activity a2) -> a1.getLocation().compareTo(a2.getLocation()));		
+		}
+		else if(sortBy.equalsIgnoreCase("type")) {
+			activities.sort(
+				      (Activity a1, Activity a2) -> a1.getType().compareTo(a2.getType()));		
+		}
+		else if(sortBy.equalsIgnoreCase("distance")) {
+			activities.sort(
+				      (Activity a1, Activity a2) -> a1.getDistance().compareTo(a2.getDistance()));		
+		}
+		return activities;
+	}
 
   public void addLocation(String id, String activityId, double latitude, double longitude) {
 	    try {

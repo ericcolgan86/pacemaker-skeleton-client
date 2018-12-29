@@ -32,8 +32,8 @@ public class Activity implements Serializable {
     return location;
   }
 
-  public String getDistance() {
-    return Double.toString(distance);
+  public Double getDistance() {
+    return distance;
   }
 
   @Override
