@@ -20,7 +20,9 @@ import parsers.Parser;
 
 public class PacemakerConsoleService {
 
-	private PacemakerAPI paceApi = new PacemakerAPI("http://localhost:7000");
+	//private PacemakerAPI paceApi = new PacemakerAPI("http://localhost:7000");
+	private PacemakerAPI paceApi = new PacemakerAPI("https://stormy-hamlet-14897.herokuapp.com/");
+	 
 	private Parser console = new AsciiTableParser();
 	private Sorter sorter = new Sorter();
 	private User loggedInUser = null;
